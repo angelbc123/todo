@@ -2,13 +2,13 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Project;
+use App\Models\Todo;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin Project
+ * @mixin Todo
  */
-class ProjectResource extends JsonResource
+class TodoResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,8 +19,11 @@ class ProjectResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name' => $this->name,
-            'todos' => TodoResource::collection($this->todos)
+            'description' => $this->description,
+            'owned_by' => $this->user,
+            'project' => $this->project,
+            'status' => $this->todoStatus->name,
+            'view_counter' => $this->view_counter,
         ];
     }
 }

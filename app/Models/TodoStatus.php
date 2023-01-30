@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $slug
  * @property string $name
+ *
+ * @method Builder|self whereTodo()
+ * @method Builder|self whereDone()
  */
 class TodoStatus extends Model
 {
@@ -20,4 +23,14 @@ class TodoStatus extends Model
     protected $guarded = [
         'id'
     ];
+
+    public function scopeWhereTodo(Builder $builder): Builder
+    {
+        return $builder->where('name', 'todo');
+    }
+
+    public function scopeWhereDone(Builder $builder): Builder
+    {
+        return $builder->where('name', 'done');
+    }
 }

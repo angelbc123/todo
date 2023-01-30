@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ProjectController;
+use App\Http\Controllers\Api\TodoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,15 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
 Route::middleware('auth:sanctum')
     ->group(function() {
 
         Route::resource('projects', ProjectController::class)->only([
             'index', 'store'
         ]);
+
+        Route::apiResource('todos', TodoController::class)
+            ->except('update');
+
+        Route::patch('todos/{todo}/done', [TodoController::class, 'marksAsDone']);
 
     });

@@ -5,15 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 /**
  * @mixin Builder
  *
  * @property int $id
+ * @property int $created_by
  * @property string $name
  * @property User $user
- *
- * @method whereUser(User $user)
+ * @property Todo[]|Collection $todos
  */
 class Project extends Model
 {
@@ -23,13 +26,13 @@ class Project extends Model
         'id'
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function scopeWhereUser(Builder $builder, User $user)
+    public function todos(): HasMany
     {
-        return $builder->where('user_id', $user->id);
+        return $this->hasMany(Todo::class);
     }
 }

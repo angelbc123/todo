@@ -18,7 +18,6 @@ class ProjectController extends Controller
     public function index(Request $request): AnonymousResourceCollection
     {
         $projects = (new Project())
-            ->whereUser($request->user())
             ->get();
 
         return ProjectResource::collection($projects);
@@ -33,7 +32,7 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request): ProjectResource
     {
         $project = Project::create([
-            'user_id' => $request->user()->id,
+            'created_by' => $request->user()->id,
             'name' => $request->input('name'),
         ]);
 
