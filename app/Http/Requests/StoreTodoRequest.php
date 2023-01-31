@@ -25,7 +25,7 @@ class StoreTodoRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => ['required', 'max:2555'],
+            'description' => ['required', 'max:255'],
             'project_id' => ['required', 'exists:' . (new Project())->getTable() . ',id'],
         ];
     }
