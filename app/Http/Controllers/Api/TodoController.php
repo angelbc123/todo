@@ -23,7 +23,8 @@ class TodoController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $todos = (new Todo())
-            ->get();
+            ->with(['project', 'ownedBy', 'todoStatus'])
+            ->paginate(25);
 
         return TodoResource::collection($todos);
     }
@@ -34,11 +35,11 @@ class TodoController extends Controller
      * @param StoreTodoRequest $request
      * @return TodoResource
      */
-    public function store(StoreTodoRequest $request)
+    public function store(StoreTodoRequest $request): TodoResource
     {
         $todoStatus = (new TodoStatus())
             ->whereTodo()
-            ->first();
+            ->firstOrFail();
 
         $todo = Todo::create([
             'owned_by' => $request->user()->id,
@@ -56,9 +57,10 @@ class TodoController extends Controller
      * @param Todo $todo
      * @return TodoResource
      */
-    public function show(Todo $todo)
+    public function show(Todo $todo): TodoResource
     {
         $todo->increment('view_counter');
+        $todo->loadMissing(['project', 'ownedBy', 'todoStatus']);
 
         return new TodoResource($todo);
     }
@@ -73,7 +75,7 @@ class TodoController extends Controller
     {
         $doneStatus = (new TodoStatus())
             ->whereDone()
-            ->first();
+            ->firstOrFail();
 
         $todo->todoStatus()->associate($doneStatus);
         $todo->save();

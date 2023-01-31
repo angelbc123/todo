@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $description
  * @property int $view_counter
  *
- * @property User $user
+ * @property User $ownedBy
  * @property Project $project
  * @property TodoStatus $todoStatus
  */
@@ -29,7 +29,7 @@ class Todo extends Model
         'id'
     ];
 
-    public function user(): BelongsTo
+    public function ownedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owned_by');
     }

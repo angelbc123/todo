@@ -15,10 +15,11 @@ class ProjectController extends Controller
      * Display a listing of the resource.
      *
      */
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(): AnonymousResourceCollection
     {
         $projects = (new Project())
-            ->get();
+            ->with('todos')
+            ->paginate(25);
 
         return ProjectResource::collection($projects);
     }

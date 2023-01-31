@@ -20,9 +20,9 @@ class TodoResource extends JsonResource
     {
         return [
             'description' => $this->description,
-            'owned_by' => $this->user,
-            'project' => $this->project,
-            'status' => $this->todoStatus->name,
+            'owned_by' => $this->whenLoaded('ownedBy'),
+            'project' => $this->whenLoaded('project'),
+            'status' => $this->whenLoaded('todoStatus'),
             'view_counter' => $this->view_counter,
         ];
     }

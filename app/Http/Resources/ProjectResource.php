@@ -20,7 +20,7 @@ class ProjectResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'todos' => TodoResource::collection($this->todos)
+            'todos' => TodoResource::collection($this->whenLoaded('todos'))
         ];
     }
 }

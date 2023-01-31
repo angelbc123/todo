@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')
     ->group(function() {
 
-        Route::resource('projects', ProjectController::class)->only([
+        Route::apiResource('projects', ProjectController::class)->only([
             'index', 'store'
         ]);
 
